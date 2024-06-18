@@ -4,25 +4,23 @@ import { Observable, catchError, of } from 'rxjs';
 import { Hero } from '../interfaces/hero.interface';
 import { environments } from '../../../environments/environmts';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class HeroesService {
-
   private baseUrl: string = environments.baseUrl;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getHeroes(): Observable<Hero[]> {
     return this.http.get<Hero[]>(`${this.baseUrl}/heroes`);
   }
 
-  getHeroById(id: string): Observable<Hero|undefined > {
-    return this.http.get<Hero>(`${this.baseUrl}/heroes/${id}`)
-    .pipe(
-      catchError(error => of(undefined))
-    );
+  getHeroById(id: string): Observable<Hero | undefined> {
+    return this.http
+      .get<Hero>(`${this.baseUrl}/heroes/${id}`)
+      .pipe(catchError((error) => of(undefined)));
   }
 
-  getSuggestion(query: string): Observable<Hero[]> {
-    return this.http.get<Hero[]>(`/heroes?q=${query}&_limit=6`);
+  getSuggestions(query: string): Observable<Hero[]> {
+    return this.http.get<Hero[]>(`${this.baseUrl}/heroes?q=${query}&_limit=6`);
   }
 }
